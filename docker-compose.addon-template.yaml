@@ -1,8 +1,8 @@
 #ddev-generated
-# Simple template to demonstrate addon-template
+# Simple template to demonstrate ddev-addon-wordpress-bedrock-sage
 services:
-  addon-template:
-    container_name: ddev-${DDEV_SITENAME}-addon-template
+  ddev-addon-wordpress-bedrock-sage:
+    container_name: ddev-${DDEV_SITENAME}-ddev-addon-wordpress-bedrock-sage
     image: busybox:stable
     command: tail -f /dev/null
     restart: "no"
