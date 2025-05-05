@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+#ddev-generated
+
+active_theme_name=$(wp theme list --status=active --format=json | jq -r .[].name)
+active_theme_directory=${DDEV_DOCROOT}/app/themes/$active_theme_name
+
+cd "$active_theme_directory"
+# load bash completion for npm if it is not declared
+if ! declare -F _npm_completion >/dev/null; then
+  [ -n "$(type -t npm)" ] && eval "$(npm completion)"
+fi
+# set env variables required for npm's bash completion script
+COMP_WORDS=("$@")
+COMP_WORDS+=("run")
+
+COMP_CWORD=$(($#))
+# run the actual script
+_npm_completion
+# output the result (which was stored in COMPREPLY) as a new-line delimited string
+printf "%s\n" "${COMPREPLY[@]}"

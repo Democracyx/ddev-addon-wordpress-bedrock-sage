@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+#ddev-generated
+
+## Description: Run a script for the currently active sage theme
+## Usage: sage
+## Example: "sage"
+## OSTypes: linux
+
+active_theme_name=$(wp theme list --status=active --format=json | jq -r .[].name)
+active_theme_directory=${DDEV_DOCROOT}/app/themes/${active_theme_name}
+
+if [ -d "$active_theme_directory" ]; then
+
+    cd "$active_theme_directory" || \
+        { echo "Error: could not change directory to the active theme directory '$active_theme_directory'"; exit 1; }
+    if [ -f package.json ] && [ "$(jq -r .name < package.json)" = "sage" ]; then
+        npm run dev
+    else
+        { echo "Error: The active theme '${active_theme_name}' does not seem to be a sage theme"; exit 1; }
+    fi
+else
+    { echo "Error: '$active_theme_directory' is not the active theme directory"; exit 1; }
+fi
